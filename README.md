@@ -5,13 +5,13 @@ This project demonstrates a production-ready backend for handling user authentic
 
 ## 🚀 Features
 
-✅ User Registration & Login (with JWT Authentication)
-✅ Role-based Access Control (USER & ADMIN)
-✅ Secure Password Storage (BCrypt)
-✅ REST API for Authentication
-✅ MySQL Database Integration with JPA/Hibernate
-✅ Spring Security with Stateless Sessions
-✅ Extensible structure for adding products, orders, and payments
+- ✅ User Registration & Login (with JWT Authentication)  
+- ✅ Role-based Access Control (**USER** & **ADMIN**)  
+- ✅ Secure Password Storage (BCrypt)  
+- ✅ REST API for Authentication  
+- ✅ MySQL Database Integration with JPA/Hibernate  
+- ✅ Spring Security with Stateless Sessions  
+- ✅ Extensible structure for adding products, orders, and payments  
 
 ## 🏗️ Tech Stack
 
