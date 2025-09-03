@@ -24,7 +24,7 @@ public class ProductController {
 
     // Only manager can add product
     @PostMapping
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public Product addProduct(@RequestBody Product product){
         return productService.add(product);
     }
