@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+</head>
+<body>
+<h2>Register</h2>
+<form id="registerForm">
+    <label>Full Name:</label><br>
+    <input type="text" id="fullName" required><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" id="email" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" id="password" required><br><br>
+
+    <label>Role:</label><br>
+    <select id="role">
+        <option value="CUSTOMER">Customer</option>
+        <option value="MANAGER">Manager</option>
+    </select><br><br>
+
+    <button type="submit">Register</button>
+</form>
+
+<p id="message"></p>
+
+<script>
+    document.getElementById("registerForm").addEventListener("submit", async function(e){
+        e.preventDefault();
+
+        const data = {
+            fullName: document.getElementById("fullName").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            role: document.getElementById("role").value
+        };
+
+        const response = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        document.getElementById("message").innerText = JSON.stringify(result);
+    });
+</script>
+</body>
+</html>
