@@ -72,7 +72,7 @@ E-Commerce-MiniStore/
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/Anmol283/BE_ElaraRegency](https://github.com/Anmol283/E-commerceMiniStore)
+   git clone https://github.com/Anmol283/E-commerceMiniStore
    cd E-Commerce-MiniStore
    ```
 
