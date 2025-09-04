@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - E-Commerce Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f7fa;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar h1 {
+            font-size: 1.5rem;
+        }
+        .navbar .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0 auto;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .welcome-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        .quick-actions {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .action-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+        .error {
+            background: #fee;
+            color: #e74c3c;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <h1>E-Commerce Dashboard</h1>
+    <ul class="nav-links">
+        <li><a href="/dashboard" class="active">Dashboard</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/inventory">Inventory</a></li>
+    </ul>
+    <div class="user-info">
+        <span id="username">Loading...</span>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</nav>
+
+<div class="container">
+    <div id="loading" class="loading">
+        <p>Loading dashboard...</p>
+    </div>
+
+    <div id="error" class="error"></div>
+
+    <div id="dashboard-content" style="display: none;">
+        <div class="welcome-section">
+            <h2>Welcome to your Store Dashboard</h2>
+            <p>Manage your products, track inventory, and monitor your business performance.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3 id="total-products">--</h3>
+                <p>Total Products</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="low-stock">--</h3>
+                <p>Low Stock Items</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="total-orders">--</h3>
+                <p>Total Orders</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="revenue">₹--</h3>
+                <p>Total Revenue</p>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="actions-grid">
+                <a href="/products" class="action-btn">View All Products</a>
+                <a href="/inventory" class="action-btn">Manage Inventory</a>
+                <button class="action-btn" onclick="addProduct()">Add New Product</button>
+                <button class="action-btn" onclick="viewReports()">View Reports</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        checkAuthentication();
+        loadDashboardData();
+    });
+
+    function checkAuthentication() {
+        const token = localStorage.getItem('jwtToken');
+        const username = localStorage.getItem('username');
+
+        if (!token) {
+            window.location.href = '/login';
+            return;
+        }
+
+        // Display username
+        document.getElementById('username').textContent = username || 'User';
+    }
+
+    async function loadDashboardData() {
+        const token = localStorage.getItem('jwtToken');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const content = document.getElementById('dashboard-content');
+
+        loading.style.display = 'block';
+        error.style.display = 'none';
+
+        try {
+            // Load products data
+            const response = await fetch('/api/products', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 401) {
+                // Token expired or invalid
+                localStorage.removeItem('jwtToken');
+                localStorage.removeItem('username');
+                window.location.href = '/login';
+                return;
+            }
+
+            if (response.ok) {
+                const products = await response.json();
+                updateDashboardStats(products);
+                content.style.display = 'block';
+            } else {
+                throw new Error('Failed to load dashboard data');
+            }
+        } catch (err) {
+            console.error('Dashboard loading error:', err);
+            error.textContent = 'Failed to load dashboard data. Please try refreshing the page.';
+            error.style.display = 'block';
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+
+    function updateDashboardStats(products) {
+        document.getElementById('total-products').textContent = products.length;
+
+        // Calculate low stock items (assuming threshold of 10)
+        const lowStockItems = products.filter(p => p.stock < 10).length;
+        document.getElementById('low-stock').textContent = lowStockItems;
+
+        // Mock data for orders and revenue (you can replace with actual API calls)
+        document.getElementById('total-orders').textContent = '156';
+        document.getElementById('revenue').textContent = '₹45,230';
+    }
+
+    function logout() {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('username');
+        window.location.href = '/login';
+    }
+
+    function addProduct() {
+        window.location.href = '/products?action=add';
+    }
+
+    function viewReports() {
+        alert('Reports feature coming soon!');
+    }
+
+    // Global fetch interceptor to handle token expiration
+    const originalFetch = window.fetch;
+    window.fetch = function(...args) {
+        return originalFetch.apply(this, args)
+            .then(response => {
+                if (response.status === 401) {
+                    localStorage.removeItem('jwtToken');
+                    localStorage.removeItem('username');
+                    window.location.href = '/login';
+                }
+                return response;
+            });
+    };
+</script>
+</body>
+</html>
