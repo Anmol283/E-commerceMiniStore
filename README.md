@@ -3,6 +3,7 @@
 <div align="center"> <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm11OHEzeHZueHZscjBjc3Fia3o0YWcxdGV2Nzl5ZWU4YWUzY2JuNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Hu475i12tHBg94FIeD/giphy.gif" alt="Shopping GIF" width="300" height="300"></div>
 </br>
 <div align="center"> <i> Secure shopping, smooth coding.</i> </div>
+
 ---
 
 ## ✨ Overview
