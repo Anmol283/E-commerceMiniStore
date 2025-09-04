@@ -1,5 +1,9 @@
-# 🛒 E-commerce Mini Store
+<h1 align="center">🛒🛍️ E-commerce Mini Store</h1>
+</br>
 <div align="center"> <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm11OHEzeHZueHZscjBjc3Fia3o0YWcxdGV2Nzl5ZWU4YWUzY2JuNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Hu475i12tHBg94FIeD/giphy.gif" alt="Shopping GIF" width="300" height="300"></div>
+</br>
+<div align="center"> <i> Secure shopping, smooth coding.</i> </div>
+---
 
 ## ✨ Overview
 
@@ -32,7 +36,7 @@ E-Commerce Mini Store is a full-stack web application built with Spring Boot, Ja
 | **Backend**      | <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot" /> <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java" />
 | **Database**     | <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
 | **Security**   | <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jwt&logoColor=white" alt="JWT" /> <img src="https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Security" />|
-| **Frontend**     | <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" /> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
+| **Frontend**     | <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white" alt="Thymeleaf" /> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" /> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
 ---
 
 ## 📁 Directory Structure
@@ -97,7 +101,7 @@ E-Commerce-MiniStore/
 
 ### Auth
 - POST `/api/auth/register` – Register new user
-- POST /api/auth/login – Login and get JWT
+- POST `/api/auth/login` – Login and get JWT
 
 ### Products
 - GET `/api/products` – Get all products (any role)
