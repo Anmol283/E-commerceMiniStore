@@ -1,5 +1,8 @@
 package com.example.E_commerceMiniStore.controller;
 
+import java.util.Map;
+import java.util.HashMap;
+
 
 import com.example.E_commerceMiniStore.entity.User;
 import com.example.E_commerceMiniStore.service.UserService;
@@ -16,9 +19,14 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
         String token = userService.login(user); // returns JWT
-        return ResponseEntity.ok(token);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+        return ResponseEntity
+            .ok()
+            .header("Content-Type", "application/json")
+            .body(response);
     }
 
     @PostMapping("/register")
