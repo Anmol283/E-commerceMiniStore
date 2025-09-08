@@ -1,5 +1,6 @@
 package com.example.E_commerceMiniStore.service;
 
+import com.example.E_commerceMiniStore.entity.Role;
 import com.example.E_commerceMiniStore.entity.User;
 import com.example.E_commerceMiniStore.repository.UserRepository;
 import com.example.E_commerceMiniStore.security.JwtService;
@@ -14,13 +15,29 @@ public class UserService {
     private UserRepository userRepository;
 
     // Registration
-    public User register(User user){
-        // You can add password encoding here
-        if(userRepository.findByEmail(user.getEmail()).isPresent()){
+    public User register(User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
+
+        if (user.getRole() == null) {
+            user.setRole(Role.CUSTOMER); // default role
+        }
+        if (user.getFullName() == null || user.getFullName().isEmpty()) {
+            user.setFullName(user.getEmail().split("@")[0]); // fallback fullName
+        }
+
         return userRepository.save(user);
     }
+    // ✅ validate user credentials
+    public User validateUser(User user) {
+        Optional<User> existing = userRepository.findByEmail(user.getEmail());
+        if (existing.isEmpty() || !existing.get().getPassword().equals(user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+        return existing.get(); // return full User object from DB
+    }
+
 
     // Login
 //    public String login(User user){
@@ -35,15 +52,14 @@ public class UserService {
     @Autowired
     private JwtService jwtService;
 
-    public String login(User user){
+    public String login(User user) {
         Optional<User> existing = userRepository.findByEmail(user.getEmail());
-        if(existing.isEmpty() || !existing.get().getPassword().equals(user.getPassword())){
+        if (existing.isEmpty() || !existing.get().getPassword().equals(user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
-        // generate actual JWT
-        String token = jwtService.generateToken(existing.get().getEmail(), existing.get().getRole().name());
-        return token;
+        // pass full User to JWT service
+        return jwtService.generateToken(existing.get());
     }
 
 }

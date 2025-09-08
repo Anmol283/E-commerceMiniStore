@@ -19,20 +19,37 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
-        String token = userService.login(user); // returns JWT
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> login(@RequestBody User user) {
+        User dbUser = userService.validateUser(user); // check email & password
+        String token = userService.login(dbUser);     // generate JWT
+
+        Map<String, Object> response = new HashMap<>();
         response.put("token", token);
-        return ResponseEntity
-            .ok()
-            .header("Content-Type", "application/json")
-            .body(response);
+        response.put("role", dbUser.getRole().name());
+        response.put("fullName", dbUser.getFullName());
+        response.put("email", dbUser.getEmail());
+
+        return ResponseEntity.ok(response);
     }
 
+
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        return ResponseEntity.ok(userService.register(user));
+    public ResponseEntity<Map<String, String>> register(@RequestBody User user) {
+        try {
+            User savedUser = userService.register(user);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User registered successfully!");
+            response.put("email", savedUser.getEmail());
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("message", e.getMessage()));
+        }
     }
+
 }
 
 

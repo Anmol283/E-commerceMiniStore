@@ -1,222 +1,797 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - E-Commerce Store</title>
+    <script src="/navbar.js" defer></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #f5f7fa;
-            line-height: 1.6;
-        }
-        .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .navbar h1 {
-            font-size: 1.5rem;
-        }
-        .navbar .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            margin: 0 auto;
-        }
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-        .nav-links a:hover, .nav-links a.active {
-            background: rgba(255,255,255,0.2);
-        }
-        .logout-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .logout-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .welcome-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        .stat-card h3 {
-            color: #667eea;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        .stat-card p {
-            color: #666;
-            font-size: 1.1rem;
-        }
-        .quick-actions {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .action-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: opacity 0.3s;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-        }
-        .action-btn:hover {
-            opacity: 0.9;
-        }
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            display: none;
-        }
-        .error {
-            background: #fee;
-            color: #e74c3c;
-            padding: 1rem;
-            border-radius: 5px;
-            margin-bottom: 1rem;
-            display: none;
-        }
+
+        /* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #edf2f7 0%, #d6e2f0 100%); /* Softer, professional gradient */
+    min-height: 100vh;
+    line-height: 1.6;
+    color: #2d3748; /* Neutral dark gray for text */
+}
+
+/* Navbar: Modern and clean */
+.navbar {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%); /* Matches login page gradient */
+    color: #ffffff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+/* Navigation links: Refined styling */
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* User info: Compact and professional */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.role-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.role-manager {
+    background: #38a169; /* Professional green */
+    color: #ffffff;
+}
+
+.role-user {
+    background: #3182ce; /* Professional blue */
+    color: #ffffff;
+}
+
+.cart-icon {
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #e53e3e; /* Vibrant red */
+    color: #ffffff;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+/* Logout button: Consistent with login page */
+.logout-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+/* Container: Wider for larger screens */
+.container {
+    max-width: 1440px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+/* Welcome section: Clean and inviting */
+.welcome-section {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.welcome-section h2 {
+    color: #2d3748;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.welcome-section p {
+    color: #4a5568;
+    font-size: 1rem;
+}
+
+/* Stats grid: Modern card layout */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card h3 {
+    color: #5a67d8;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    color: #4a5568;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Products section: Clean and structured */
+.products-section {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+}
+
+.products-section h3 {
+    color: #2d3748;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.product-card {
+    border: 1px solid #e2e8f0; /* Light border */
+    border-radius: 10px;
+    padding: 1.5rem;
+    background: #f7fafc; /* Subtle background */
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-color: #5a67d8;
+    background: #ffffff;
+}
+
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.product-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.product-price {
+    font-size: 1.1rem;
+    color: #5a67d8;
+    font-weight: 600;
+}
+
+.product-details {
+    color: #4a5568;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.product-stock {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.stock-high { background: #e6fffa; color: #2b6cb0; } /* Softer colors */
+.stock-medium { background: #fefcbf; color: #744210; }
+.stock-low { background: #fed7e2; color: #9b2c2c; }
+.stock-out { background: #edf2f7; color: #718096; }
+
+.product-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn {
+    flex: 1;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-add-cart {
+    background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+    color: #ffffff;
+}
+
+.btn-add-cart:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+}
+
+.btn-add-cart:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.view-all-btn {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    color: #ffffff;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.view-all-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(90, 103, 216, 0.3);
+}
+
+/* Quick actions: Streamlined */
+.quick-actions {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+}
+
+.quick-actions h3 {
+    color: #2d3748;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.action-btn {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    color: #ffffff;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(90, 103, 216, 0.3);
+}
+
+.action-btn.secondary {
+    background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+}
+
+.action-btn.cart {
+    background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+}
+
+/* Loading and error states */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #4a5568;
+    font-size: 1rem;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.error {
+    background: #fed7e2;
+    color: #9b2c2c;
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: none;
+}
+
+/* Role-based visibility */
+.manager-only { display: none !important; }
+.user-only { display: none !important; }
+
+/* Notification: Subtle and modern */
+.notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.success {
+    background: #38a169;
+}
+
+.notification.error {
+    background: #e53e3e;
+}
+
+/* Debug info: Discreet */
+.debug-info {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    background: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    padding: 0.8rem;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.75rem;
+    max-width: 280px;
+    z-index: 1000;
+    display: none;
+}
+
+/* Pulse animation for loading */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar h1 {
+        font-size: 1.4rem;
+    }
+
+    .welcome-section h2 {
+        font-size: 1.6rem;
+    }
+
+    .products-section h3,
+    .quick-actions h3 {
+        font-size: 1.4rem;
+    }
+
+    .btn,
+    .action-btn {
+        font-size: 0.85rem;
+        padding: 0.5rem;
+    }
+}
     </style>
 </head>
+
 <body>
 <nav class="navbar">
-    <h1>E-Commerce Dashboard</h1>
+    <h1 id="navTitle">Dashboard</h1>
     <ul class="nav-links">
         <li><a href="/dashboard" class="active">Dashboard</a></li>
         <li><a href="/products">Products</a></li>
-        <li><a href="/inventory">Inventory</a></li>
+        <li><a href="/inventory" class="manager-only">Inventory</a></li>
+        <li><a href="/cart" class="user-only">
+            <div class="cart-icon">
+                Cart
+                <span id="cartCount" class="cart-count" style="display: none;">0</span>
+            </div>
+        </a></li>
     </ul>
     <div class="user-info">
         <span id="username">Loading...</span>
+        <span id="userRole" class="role-badge">Loading...</span>
         <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
 </nav>
 
 <div class="container">
     <div id="loading" class="loading">
-        <p>Loading dashboard...</p>
+        Loading dashboard...
     </div>
 
     <div id="error" class="error"></div>
 
-    <div id="dashboard-content" style="display: none;">
+  <div id="dashboard-content" style="display: none;">
         <div class="welcome-section">
-            <h2>Welcome to your Store Dashboard</h2>
-            <p>Manage your products, track inventory, and monitor your business performance.</p>
+            <h2 id="welcomeTitle">Welcome</h2>
+            <p id="welcomeDescription">Loading...</p>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
+        <!-- ✅ Common About Section -->
+        <div class="about-section" style="margin-top: 2rem; padding: 1rem; background: #f9f9f9; border-radius: 8px;">
+            <h3>About Our Store 🛍️</h3>
+            <p>
+                This mini E-commerce Store is a demo project built with <b>Spring Boot</b> (backend)
+                and <b>Thymeleaf + JavaScript</b> (frontend). It supports both <b>Customer</b>
+                and <b>Manager</b> roles. Customers can browse and purchase products,
+                while managers can add, update, or manage inventory.
+            </p>
+            <p>
+                The goal of this project is to demonstrate <b>JWT Authentication</b>,
+                <b>Role-based Dashboard</b>, and a simple yet functional store system.
+            </p>
+        </div>
+    </div>
+
+
+        <div class="stats-grid" id="statsGrid">
+            <!-- Manager Stats -->
+            <div class="stat-card manager-only">
                 <h3 id="total-products">--</h3>
                 <p>Total Products</p>
             </div>
-            <div class="stat-card">
+            <div class="stat-card manager-only">
                 <h3 id="low-stock">--</h3>
-                <p>Low Stock Items</p>
+                <p>Low Stock Alert</p>
             </div>
-            <div class="stat-card">
-                <h3 id="total-orders">--</h3>
-                <p>Total Orders</p>
+            <div class="stat-card manager-only">
+                <h3 id="out-of-stock">--</h3>
+                <p>Out of Stock</p>
             </div>
-            <div class="stat-card">
-                <h3 id="revenue">₹--</h3>
-                <p>Total Revenue</p>
+            <div class="stat-card manager-only">
+                <h3 id="total-categories">--</h3>
+                <p>Product Categories</p>
+            </div>
+
+            <!-- Customer Stats -->
+            <div class="stat-card user-only">
+                <h3 id="available-products">--</h3>
+                <p>Available Products</p>
+            </div>
+            <div class="stat-card user-only">
+                <h3 id="cart-items">--</h3>
+                <p>Items in Cart</p>
+            </div>
+            <div class="stat-card user-only">
+                <h3 id="cart-total">₹--</h3>
+                <p>Cart Total</p>
+            </div>
+            <div class="stat-card user-only">
+                <h3 id="product-categories">--</h3>
+                <p>Categories Available</p>
             </div>
         </div>
 
-        <div class="quick-actions">
+        <!-- Manager Quick Actions -->
+        <div class="quick-actions manager-only">
+            <h3>Inventory Management</h3>
+            <div class="actions-grid">
+                <a href="/inventory" class="action-btn">Manage Inventory</a>
+                <a href="/products" class="action-btn secondary">View All Products</a>
+            </div>
+        </div>
+
+        <!-- Manager Products Overview -->
+        <div class="products-section manager-only">
+            <h3>Recent Products Overview</h3>
+            <div id="manager-products-grid" class="products-grid">
+                <!-- Products will be loaded here for managers -->
+            </div>
+            <div style="text-align: center;">
+                <a href="/products" class="view-all-btn">View All Products</a>
+            </div>
+        </div>
+
+        <!-- Customer Shopping Section -->
+        <div class="products-section user-only">
+            <h3>Shop Our Products</h3>
+            <div id="customer-products-grid" class="products-grid">
+                <!-- Products will be loaded here -->
+            </div>
+            <div style="text-align: center;">
+                <a href="/products" class="view-all-btn">View All Products</a>
+            </div>
+        </div>
+
+        <!-- Customer Quick Actions -->
+        <div class="quick-actions user-only">
             <h3>Quick Actions</h3>
             <div class="actions-grid">
-                <a href="/products" class="action-btn">View All Products</a>
-                <a href="/inventory" class="action-btn">Manage Inventory</a>
-                <button class="action-btn" onclick="addProduct()">Add New Product</button>
-                <button class="action-btn" onclick="viewReports()">View Reports</button>
+                <a href="/products" class="action-btn">Browse All Products</a>
+                <a href="/cart" class="action-btn cart">View Shopping Cart</a>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Debug Info Panel -->
+<div id="debugInfo" class="debug-info">
+    <div>User Role: <span id="debugRole">Not set</span></div>
+    <div>Username: <span id="debugUsername">Not set</span></div>
+    <div>Token: <span id="debugToken">Not set</span></div>
+    <div>Products Count: <span id="debugProductsCount">0</span></div>
+    <button onclick="toggleDebug()" style="margin-top: 10px; padding: 5px;">Hide Debug</button>
+</div>
+
 <script>
+    let userRole = null;
+    let cart = [];
+    let allProducts = [];
+    let debugMode = false;
+
     document.addEventListener('DOMContentLoaded', function() {
-        checkAuthentication();
-        loadDashboardData();
+        console.log('DOM loaded, starting initialization...');
+
+        // Enable debug mode by default for troubleshooting
+        debugMode = true;
+        updateDebugInfo();
+
+        // Add a small delay to ensure all elements are rendered
+        setTimeout(() => {
+            checkAuthentication();
+            loadCart();
+            loadDashboardData();
+        }, 100);
     });
+
+    function toggleDebug() {
+        debugMode = !debugMode;
+        const debugPanel = document.getElementById('debugInfo');
+        debugPanel.style.display = debugMode ? 'block' : 'none';
+    }
+
+    function updateDebugInfo() {
+        if (!debugMode) return;
+
+        const debugPanel = document.getElementById('debugInfo');
+        debugPanel.style.display = 'block';
+
+        document.getElementById('debugRole').textContent = userRole || 'null';
+        document.getElementById('debugUsername').textContent = localStorage.getItem('username') || 'null';
+        document.getElementById('debugToken').textContent = localStorage.getItem('jwtToken') ? 'Present' : 'Missing';
+        document.getElementById('debugProductsCount').textContent = allProducts.length;
+    }
 
     function checkAuthentication() {
         const token = localStorage.getItem('jwtToken');
         const username = localStorage.getItem('username');
+        const role = localStorage.getItem('userRole');
+
+        console.log('Authentication check:', { token: token ? 'Present' : 'Missing', username, role });
 
         if (!token) {
+            console.error('No JWT token found, redirecting to login');
             window.location.href = '/login';
             return;
         }
 
-        // Display username
+        // Set default role if none exists
+        userRole = role || 'USER';
+        console.log('User role set to:', userRole);
+
         document.getElementById('username').textContent = username || 'User';
+        setupRoleBasedUI(userRole);
+        updateDebugInfo();
+    }
+
+    function setupRoleBasedUI(role) {
+        console.log('Setting up UI for role:', role);
+
+        const userRoleBadge = document.getElementById('userRole');
+        const navTitle = document.getElementById('navTitle');
+        const welcomeTitle = document.getElementById('welcomeTitle');
+        const welcomeDescription = document.getElementById('welcomeDescription');
+
+        // Normalize role comparison
+        const normalizedRole = role ? role.toUpperCase() : 'USER';
+
+        if (normalizedRole === 'MANAGER' || normalizedRole === 'ADMIN') {
+            console.log('Setting up manager UI');
+
+            userRoleBadge.textContent = 'Manager';
+            userRoleBadge.className = 'role-badge role-manager';
+
+            navTitle.textContent = 'Inventory Dashboard';
+            welcomeTitle.textContent = 'Store Management Dashboard';
+            welcomeDescription.textContent = 'Monitor inventory levels, manage stock, and oversee product catalog.';
+
+            // Show manager elements
+            document.querySelectorAll('.manager-only').forEach(el => {
+                el.style.display = el.tagName === 'LI' ? 'list-item' :
+                                  el.classList.contains('stat-card') ? 'block' :
+                                  el.classList.contains('quick-actions') ? 'block' :
+                                  el.classList.contains('products-section') ? 'block' :
+                                  'block';
+                console.log('Showing manager element:', el.className);
+            });
+
+            // Hide user elements
+            document.querySelectorAll('.user-only').forEach(el => {
+                el.style.display = 'none';
+            });
+
+        } else {
+            console.log('Setting up user UI');
+
+            userRoleBadge.textContent = 'Customer';
+            userRoleBadge.className = 'role-badge role-user';
+
+            navTitle.textContent = 'Shopping Dashboard';
+            welcomeTitle.textContent = 'Welcome to Our Store';
+            welcomeDescription.textContent = 'Discover amazing products and add them to your cart for easy shopping.';
+
+            // Show user elements
+            document.querySelectorAll('.user-only').forEach(el => {
+                el.style.display = el.tagName === 'LI' ? 'list-item' : 'block';
+            });
+
+            // Hide manager elements
+            document.querySelectorAll('.manager-only').forEach(el => {
+                el.style.display = 'none';
+            });
+        }
+
+        updateDebugInfo();
+    }
+
+    function loadCart() {
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+            try {
+                cart = JSON.parse(savedCart);
+                updateCartCount();
+            } catch (e) {
+                console.error('Error parsing cart data:', e);
+                cart = [];
+            }
+        }
+    }
+
+    function updateCartCount() {
+        const cartCount = document.getElementById('cartCount');
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        if (totalItems > 0) {
+            cartCount.textContent = totalItems;
+            cartCount.style.display = 'flex';
+        } else {
+            cartCount.style.display = 'none';
+        }
     }
 
     async function loadDashboardData() {
@@ -225,11 +800,12 @@
         const error = document.getElementById('error');
         const content = document.getElementById('dashboard-content');
 
+        console.log('Loading dashboard data...');
+
         loading.style.display = 'block';
         error.style.display = 'none';
 
         try {
-            // Load products data
             const response = await fetch('/api/products', {
                 method: 'GET',
                 headers: {
@@ -238,24 +814,40 @@
                 }
             });
 
+            console.log('API response status:', response.status);
+
             if (response.status === 401) {
-                // Token expired or invalid
+                console.error('Unauthorized, clearing tokens and redirecting');
                 localStorage.removeItem('jwtToken');
                 localStorage.removeItem('username');
+                localStorage.removeItem('userRole');
                 window.location.href = '/login';
                 return;
             }
 
             if (response.ok) {
-                const products = await response.json();
-                updateDashboardStats(products);
+                allProducts = await response.json();
+                console.log('Products loaded:', allProducts.length);
+
+                updateDashboardStats(allProducts);
+
+                // Display products based on role
+                if (userRole === 'MANAGER' || userRole === 'ADMIN') {
+                    displayManagerProducts(allProducts);
+                } else {
+                    displayCustomerProducts(allProducts);
+                }
+
                 content.style.display = 'block';
+                updateDebugInfo();
             } else {
-                throw new Error('Failed to load dashboard data');
+                const errorText = await response.text();
+                console.error('API error:', response.status, errorText);
+                throw new Error(`Failed to load dashboard data: ${response.status}`);
             }
         } catch (err) {
             console.error('Dashboard loading error:', err);
-            error.textContent = 'Failed to load dashboard data. Please try refreshing the page.';
+            error.textContent = `Failed to load dashboard data: ${err.message}. Please refresh the page.`;
             error.style.display = 'block';
         } finally {
             loading.style.display = 'none';
@@ -263,44 +855,206 @@
     }
 
     function updateDashboardStats(products) {
-        document.getElementById('total-products').textContent = products.length;
+        console.log('Updating dashboard stats for role:', userRole);
 
-        // Calculate low stock items (assuming threshold of 10)
-        const lowStockItems = products.filter(p => p.stock < 10).length;
-        document.getElementById('low-stock').textContent = lowStockItems;
+        if (userRole === 'MANAGER' || userRole === 'ADMIN') {
+            // Manager statistics
+            document.getElementById('total-products').textContent = products.length;
 
-        // Mock data for orders and revenue (you can replace with actual API calls)
-        document.getElementById('total-orders').textContent = '156';
-        document.getElementById('revenue').textContent = '₹45,230';
+            const lowStockItems = products.filter(p => p.quantity <= 10 && p.quantity > 0).length;
+            document.getElementById('low-stock').textContent = lowStockItems;
+
+            const outOfStockItems = products.filter(p => p.quantity === 0).length;
+            document.getElementById('out-of-stock').textContent = outOfStockItems;
+
+            const categories = [...new Set(products.filter(p => p.category).map(p => p.category))];
+            document.getElementById('total-categories').textContent = categories.length;
+
+            console.log('Manager stats updated:', { total: products.length, lowStock: lowStockItems, outOfStock: outOfStockItems, categories: categories.length });
+        } else {
+            // Customer statistics
+            const availableProducts = products.filter(p => p.quantity > 0);
+            document.getElementById('available-products').textContent = availableProducts.length;
+
+            const cartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-items').textContent = cartItems;
+
+            const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cart-total').textContent = `₹${cartTotal.toFixed(2)}`;
+
+            const categories = [...new Set(availableProducts.filter(p => p.category).map(p => p.category))];
+            document.getElementById('product-categories').textContent = categories.length;
+
+            console.log('Customer stats updated:', { available: availableProducts.length, cartItems, cartTotal, categories: categories.length });
+        }
+    }
+
+    function displayManagerProducts(products) {
+        console.log('Displaying manager products');
+        const container = document.getElementById('manager-products-grid');
+
+        // Show first 6 products for managers with stock info
+        const displayProducts = products.slice(0, 6);
+
+        if (displayProducts.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1 / -1;">No products found.</p>';
+            return;
+        }
+
+        container.innerHTML = displayProducts.map(product => {
+            return `
+                <div class="product-card">
+                    <div class="product-header">
+                        <h4 class="product-name">${escapeHtml(product.name)}</h4>
+                        <span class="product-price">₹${product.price}</span>
+                    </div>
+                    <div class="product-details">
+                        <p><strong>Category:</strong> ${escapeHtml(product.category || 'N/A')}</p>
+                        <p><strong>Description:</strong> ${escapeHtml(product.description || 'No description')}</p>
+                        <p><strong>Stock:</strong> ${product.quantity} units</p>
+                        <span class="product-stock ${getStockClass(product.quantity)}">
+                            ${getStockText(product.quantity)}
+                        </span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function displayCustomerProducts(products) {
+        console.log('Displaying customer products');
+        const container = document.getElementById('customer-products-grid');
+
+        // Show only available products for customers, limited to first 6
+        const availableProducts = products.filter(p => p.quantity > 0).slice(0, 6);
+
+        if (availableProducts.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1 / -1;">No products available at the moment.</p>';
+            return;
+        }
+
+        container.innerHTML = availableProducts.map(product => {
+            const isInCart = cart.some(item => item.id === product.id);
+            const cartItem = cart.find(item => item.id === product.id);
+            const stockAvailable = product.quantity - (cartItem ? cartItem.quantity : 0);
+
+            return `
+                <div class="product-card">
+                    <div class="product-header">
+                        <h4 class="product-name">${escapeHtml(product.name)}</h4>
+                        <span class="product-price">₹${product.price}</span>
+                    </div>
+                    <div class="product-details">
+                        <p><strong>Category:</strong> ${escapeHtml(product.category || 'N/A')}</p>
+                        <p><strong>Description:</strong> ${escapeHtml(product.description || 'No description')}</p>
+                        <span class="product-stock ${getStockClass(product.quantity)}">
+                            ${product.quantity > 10 ? 'In Stock' : `Only ${product.quantity} left`}
+                        </span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-add-cart" onclick="addToCart(${product.id})"
+                                ${stockAvailable <= 0 ? 'disabled' : ''}>
+                            ${stockAvailable <= 0 ? 'Max Added' : isInCart ? 'Add More' : 'Add to Cart'}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function getStockClass(stock) {
+        if (stock === 0) return 'stock-out';
+        if (stock > 20) return 'stock-high';
+        if (stock > 5) return 'stock-medium';
+        return 'stock-low';
+    }
+
+    function getStockText(stock) {
+        if (stock === 0) return 'Out of Stock';
+        if (stock > 20) return 'In Stock';
+        if (stock > 5) return 'Limited Stock';
+        return 'Low Stock';
+    }
+
+    function addToCart(productId) {
+        const product = allProducts.find(p => p.id === productId);
+        if (!product || product.quantity === 0) return;
+
+        const existingItem = cart.find(item => item.id === productId);
+        if (existingItem) {
+            if (existingItem.quantity < product.quantity) {
+                existingItem.quantity += 1;
+                showNotification('Added another item to cart!', 'success');
+            } else {
+                showNotification('Cannot add more. Stock limit reached.', 'error');
+                return;
+            }
+        } else {
+            cart.push({
+                id: productId,
+                name: product.name,
+                price: product.price,
+                category: product.category,
+                quantity: 1
+            });
+            showNotification('Product added to cart!', 'success');
+        }
+
+        saveCart();
+        updateCartCount();
+        displayCustomerProducts(allProducts); // Refresh to update button states
+        updateDashboardStats(allProducts); // Update cart stats
+    }
+
+    function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function showNotification(message, type = 'success') {
+        const existingNotification = document.querySelector('.notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => notification.classList.add('show'), 100);
+
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
     }
 
     function logout() {
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('username');
-        window.location.href = '/login';
+        if (confirm('Are you sure you want to logout?')) {
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('username');
+            localStorage.removeItem('userRole');
+            // Keep cart for customers
+            if (userRole === 'MANAGER' || userRole === 'ADMIN') {
+                localStorage.removeItem('cart');
+            }
+            window.location.href = '/login';
+        }
     }
 
-    function addProduct() {
-        window.location.href = '/products?action=add';
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
-    function viewReports() {
-        alert('Reports feature coming soon!');
-    }
-
-    // Global fetch interceptor to handle token expiration
-    const originalFetch = window.fetch;
-    window.fetch = function(...args) {
-        return originalFetch.apply(this, args)
-            .then(response => {
-                if (response.status === 401) {
-                    localStorage.removeItem('jwtToken');
-                    localStorage.removeItem('username');
-                    window.location.href = '/login';
-                }
-                return response;
-            });
-    };
+    // Add keyboard shortcut to toggle debug mode
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+            toggleDebug();
+        }
+    });
 </script>
 </body>
 </html>

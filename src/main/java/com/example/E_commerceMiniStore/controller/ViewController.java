@@ -12,6 +12,10 @@ public class ViewController {
     @Autowired
     private ProductService productService;
 
+    @GetMapping("/cart")
+    public String cartPage() {
+        return "cart"; // looks for templates/cart.html
+    }
     // Root path - redirect to login
     @GetMapping("/")
     public String home() {

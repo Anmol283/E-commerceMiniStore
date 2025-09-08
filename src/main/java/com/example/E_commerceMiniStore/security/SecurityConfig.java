@@ -25,7 +25,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/login", "/api/auth/**", "/login.html", "/register", "/register.html", "/dashboard", "/dashboard.html", "/inventory", "/inventory.html", "/products", "/products.html", "/static/**", "/templates/**").permitAll()
+                .requestMatchers("/", "/login", "/api/auth/**", "/login.html", "/register", "/register.html", "/dashboard", "/dashboard.html", "/cart","/cart.html","/navbar.js","/inventory", "/inventory.html", "/products", "/products.html", "/static/**", "/templates/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
