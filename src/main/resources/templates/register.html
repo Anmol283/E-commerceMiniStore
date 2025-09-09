@@ -185,18 +185,27 @@
     </style>
 </head>
 <body>
-<h2>Register</h2>
-<div id="error"></div>
-<div id="success"></div>
-<form id="registerForm">
-    <label>Email:</label><br>
-    <input type="email" id="email" required /><br>
-    <label>Password:</label><br>
-    <input type="password" id="password" required /><br><br>
-    <button type="submit" id="registerBtn">Register</button>
-    <div id="loading">Registering...</div>
-</form>
-<p>Already have an account? <a href="/login">Login here</a></p>
+
+<div class="register-container">
+    <h2>Register</h2>
+    <div id="error"></div>
+    <div id="success"></div>
+    <form id="registerForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required />
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" required />
+        </div>
+        <button type="submit" id="registerBtn">Register</button>
+        <div id="loading">Registering...</div>
+    </form>
+    <div class="login-link">
+        Already have an account? <a href="/login">Login here</a>
+    </div>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

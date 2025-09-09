@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - E-Commerce Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #294835;
+            --light: #F6F7F8;
+            --dark: #1A2A36;
+        }
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background-color: var(--light);
+            padding: 20px;
+        }
+        .payment-form {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 32px 28px;
+            border-radius: 12px;
+            box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+            position: relative;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        .card-icons {
+            display: flex;
+            gap: 16px;
+            margin: 18px 0;
+        }
+        .card-icons i {
+            font-size: 2rem;
+            color: #294835;
+        }
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: .3s;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: var(--dark);
+        }
+        .company-logo {
+            max-width: 90px;
+            margin-bottom: 18px;
+        }
+        .payment-options {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .option {
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .option input[type="radio"] {
+            accent-color: var(--primary);
+        }
+        .qr-code {
+            display: none;
+            text-align: center;
+        }
+        .qr-code img {
+            max-width: 180px;
+            margin: 18px 0;
+        }
+        .error {
+            color: #e53e3e;
+            font-size: 0.95rem;
+            margin-top: 4px;
+            display: none;
+        }
+        @media (max-width: 700px) {
+            .payment-form {
+                padding: 18px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-form" id="paymentForm">
+        <img src="/static/logo.png" alt="Company Logo" class="company-logo">
+        <h2><i class="fas fa-file-invoice-dollar"></i> Payment & Billing</h2>
+        <br>
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" required>
+        </div>
+        <h3><i class="fas fa-credit-card"></i> Payment Information</h3>
+        <div class="card-icons">
+            <i class="fab fa-cc-visa" title="Visa"></i>
+            <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+            <i class="fab fa-cc-amex" title="Amex"></i>
+            <i class="fab fa-cc-paypal" title="PayPal"></i>
+            <i class="fas fa-university" title="Rupay"></i>
+        </div>
+        <div class="form-group">
+            <label for="cardNumber">Credit Card No.</label>
+            <input type="text" id="cardNumber" maxlength="16" required>
+            <div class="error" id="cardError">Please enter a valid credit card number</div>
+        </div>
+        <div class="form-group">
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" maxlength="4" required>
+            <div class="error" id="cvvError">Please enter a valid CVV</div>
+        </div>
+        <div class="form-group">
+            <label>Expiration Date</label>
+            <div style="display: flex; gap: 10px;">
+                <select id="expMonth" required>
+                    <option value="">Month</option>
+                </select>
+                <select id="expYear" required>
+                    <option value="">Year</option>
+                </select>
+            </div>
+            <div class="error" id="expError">Please select a valid expiration date</div>
+        </div>
+        <div class="payment-options">
+            <div class="option">
+                <input type="radio" id="paypal" name="payment">
+                <i class="fab fa-paypal"></i>
+                <span>PayPal - Secure checkout</span>
+            </div>
+            <div class="option">
+                <input type="radio" id="upiPayment" name="payment">
+                <i class="fas fa-mobile-alt"></i>
+                <span>UPI ID</span>
+                <input type="text" id="upiId" placeholder="Enter UPI ID" style="margin-left: 10px;">
+            </div>
+            <div class="option">
+                <input type="radio" id="qrPayment" name="payment">
+                <i class="fas fa-qrcode"></i>
+                <span>QR Code</span>
+            </div>
+        </div>
+        <div class="qr-code" id="qrCode">
+            <img src="/static/QR.jpeg" alt="UPI QR Code">
+        </div>
+        <button type="submit" class="btn" id="submitPayment"><i class="fas fa-check-circle"></i> Submit Payment</button>
+        <button id="downloadInvoice" class="btn"><i class="fas fa-file-download"></i> Download Invoice</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate expiration date dropdowns
+            const expMonth = document.getElementById('expMonth');
+            const expYear = document.getElementById('expYear');
+            const currentYear = new Date().getFullYear();
+            for (let i = 1; i <= 12; i++) {
+                expMonth.innerHTML += `<option value="${i}">${i}</option>`;
+            }
+            for (let i = currentYear; i <= currentYear + 10; i++) {
+                expYear.innerHTML += `<option value="${i}">${i}</option>`;
+            }
+            // Handle UPI and QR Payment Options
+            const qrOption = document.getElementById('qrPayment');
+            const qrCode = document.getElementById('qrCode');
+            const upiOption = document.getElementById('upiPayment');
+            const upiIdInput = document.getElementById('upiId');
+            upiOption.addEventListener('change', () => {
+                if (upiOption.checked) {
+                    upiIdInput.style.display = 'inline-block';
+                }
+            });
+            qrOption.addEventListener('change', () => {
+                qrCode.style.display = qrOption.checked ? 'block' : 'none';
+            });
+            // Download Invoice Logic
+            const downloadInvoice = document.getElementById('downloadInvoice');
+            downloadInvoice.addEventListener('click', () => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                doc.text('Invoice', 10, 10);
+                doc.text('First Name: ' + document.getElementById('firstName').value, 10, 20);
+                doc.text('Last Name: ' + document.getElementById('lastName').value, 10, 30);
+                doc.text('Payment Method: ' + (document.querySelector('input[name="payment"]:checked') ? document.querySelector('input[name="payment"]:checked').nextElementSibling.textContent : 'Card'), 10, 40);
+                doc.save('invoice.pdf');
+            });
+            // Prevent default form submission
+            const submitButton = document.getElementById('submitPayment');
+            submitButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (upiOption.checked) {
+                    const upiId = upiIdInput.value;
+                    if (upiId) {
+                        window.location.href = `paytm://payment?pa=${upiId}&pn=YourName&mc=YourMerchantCode&tid=YourTransactionId&tn=Payment for Order&am=Amount&cu=INR&url=https://paytm.com`;
+                    } else {
+                        alert('Please enter a valid UPI ID');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

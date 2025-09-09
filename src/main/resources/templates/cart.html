@@ -602,9 +602,14 @@
             });
             if (response.ok) {
                 allProducts = await response.json();
+            } else {
+                const errorText = await response.text();
+                document.getElementById('cartItemsContainer').innerHTML = `<div style='color:red;text-align:center;'>Failed to load products: ${errorText || response.status}</div>`;
+                allProducts = [];
             }
         } catch (error) {
-            console.error('Failed to load products:', error);
+            document.getElementById('cartItemsContainer').innerHTML = `<div style='color:red;text-align:center;'>Failed to load products: ${error}</div>`;
+            allProducts = [];
         }
     }
 

@@ -480,9 +480,9 @@
         <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="/products" class="active">Products</a></li>
         <li><a href="/inventory" class="manager-only">Inventory</a></li>
-        <li class="user-only">
+        <li class="user-only" style="display: none;" id="cartNav">
             <a href="/cart">
-                Cart <span id="cartCount" class="cart-count">0</span>
+                <span style="font-size:1.2em;">🛒</span> Cart <span id="cartCount" class="cart-count">0</span>
             </a>
         </li>
     </ul>
@@ -590,7 +590,7 @@
         const pageDescription = document.getElementById('pageDescription');
         const emptyStateText = document.getElementById('emptyStateText');
 
-        if (role === 'MANAGER' || role === 'ADMIN') {
+    if (role === 'MANAGER' || role === 'ADMIN') {
             userRoleBadge.textContent = 'Manager';
             userRoleBadge.className = 'role-badge role-manager';
 
@@ -603,7 +603,9 @@
             document.querySelectorAll('.manager-only').forEach(el => {
                 el.style.display = el.tagName === 'LI' ? 'list-item' : 'block';
             });
-        } else {
+            // Hide cart for managers
+            document.getElementById('cartNav').style.display = 'none';
+    } else {
             userRoleBadge.textContent = 'Customer';
             userRoleBadge.className = 'role-badge role-user';
 
@@ -616,6 +618,8 @@
             document.querySelectorAll('.user-only').forEach(el => {
                 el.style.display = el.tagName === 'LI' ? 'list-item' : 'block';
             });
+            // Show cart for customers
+            document.getElementById('cartNav').style.display = 'list-item';
         }
     }
 
