@@ -22,13 +22,18 @@ public class Product {
     @Column(nullable = false)
     private Integer quantity;
 
+    // ✅ Add this field
+    @Column(nullable = false)
+    private String category;
+
     public Product() {}
 
-    public Product(String name, String description, BigDecimal price, Integer quantity) {
+    public Product(String name, String description, BigDecimal price, Integer quantity, String category) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
+        this.category = category;
     }
 
     // Getters and Setters
@@ -46,4 +51,7 @@ public class Product {
 
     public Integer getQuantity() { return quantity; }
     public void setQuantity(Integer quantity) { this.quantity = quantity; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 }
