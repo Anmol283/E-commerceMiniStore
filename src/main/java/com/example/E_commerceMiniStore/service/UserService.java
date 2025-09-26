@@ -19,7 +19,6 @@ public class UserService {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
-
         if (user.getRole() == null) {
             user.setRole(Role.CUSTOMER); // default role
         }

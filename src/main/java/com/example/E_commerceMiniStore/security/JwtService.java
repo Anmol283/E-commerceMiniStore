@@ -18,16 +18,6 @@ public class JwtService {
     @Value("${jwt.expirationMs}")
     private long EXPIRATION_MS; // defined in application.properties (e.g., 3600000 for 1h)
 
-//    public String generateToken(User user) {
-//        return Jwts.builder()
-//                .setSubject(user.getEmail())
-//                .claim("role", user.getRole().name())
-//                .claim("fullName", user.getFullName())  // ✅ Add full name claim
-//                .setIssuedAt(new Date())
-//                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MS))
-//                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-//                .compact();
-//    }
 public String generateToken(User user) {
     return Jwts.builder()
             .setSubject(user.getEmail())
@@ -38,8 +28,6 @@ public String generateToken(User user) {
             .signWith(getSigningKey(), SignatureAlgorithm.HS256)
             .compact();
 }
-
-
 
     private java.security.Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
