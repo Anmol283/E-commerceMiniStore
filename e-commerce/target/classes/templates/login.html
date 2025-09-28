@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - E-Commerce Store</title>
+    <style>
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%); /* Softer gradient for a polished look */
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a202c; /* Dark gray for better readability */
+}
+
+/* Refined container with subtle shadow and slight transparency */
+.login-container {
+    background: rgba(255, 255, 255, 0.95); /* Slight transparency for depth */
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Softer shadow */
+    width: 100%;
+    max-width: 400px;
+    backdrop-filter: blur(8px); /* Subtle blur for modern look */
+}
+
+/* Improved typography for the heading */
+h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #2d3748; /* Neutral dark color */
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+/* Consistent spacing for form groups */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+/* Clearer, more professional labels */
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #4a5568; /* Softer gray for labels */
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+/* Enhanced input fields with better focus states */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.875rem;
+    border: 1px solid #e2e8f0; /* Lighter border for cleaner look */
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #2d3748;
+    background: #f7fafc; /* Light background for inputs */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #5a67d8; /* Matches gradient for consistency */
+    box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.2); /* Subtle focus ring */
+}
+
+/* Modern, professional button styling */
+.btn {
+    width: 100%;
+    padding: 0.875rem;
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #4c51bf 0%, #5a3f9b 100%); /* Darker gradient on hover */
+    transform: translateY(-1px); /* Subtle lift effect */
+}
+
+.btn:active {
+    transform: translateY(0); /* Reset lift on click */
+}
+
+.btn:disabled {
+    background: #a0aec0; /* Neutral gray for disabled state */
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Error and success messages with better visibility */
+.error {
+    color: #c53030; /* Vibrant red for errors */
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: none;
+}
+
+.success {
+    color: #2f855a; /* Professional green for success */
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: none;
+}
+
+/* Subtle loading animation */
+.loading {
+    display: none;
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    color: #4a5568;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Animation for loading state */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 1.5rem;
+        margin: 1rem;
+        max-width: 90%;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+}
+</style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Login to Your Store</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn" id="loginBtn">Login</button>
+    </form>
+
+    <div id="loading" class="loading">
+        <p>Logging in...</p>
+    </div>
+    <div id="error" class="error"></div>
+    <div id="success" class="success"></div>
+
+    <p style="text-align: center; margin-top: 1rem;">
+        Don't have an account? <a href="/register">Register here</a>
+    </p>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+            window.location.href = '/dashboard';
+            return;
+        }
+
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const loading = document.getElementById('loading');
+        const errorDiv = document.getElementById('error');
+        const successDiv = document.getElementById('success');
+
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showError('Please fill in all fields');
+                return;
+            }
+
+            showLoading(true);
+            hideMessages();
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.token) {
+                    // ✅ Save token
+                    localStorage.setItem('jwtToken', data.token);
+
+                    // ✅ Extract info from token payload
+                    const payload = JSON.parse(atob(data.token.split('.')[1]));
+                    localStorage.setItem('userRole', payload.role || "CUSTOMER");
+                    localStorage.setItem('username', payload.fullName || email);
+
+                    // ✅ Redirect
+                    window.location.href = '/dashboard';
+                } else {
+                    showError(data.message || 'Login failed. Please check your credentials.');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('Network error. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        function showLoading(show) {
+            if (show) {
+                loading.style.display = 'block';
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Logging in...';
+            } else {
+                loading.style.display = 'none';
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
+            }
+        }
+
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            successDiv.style.display = 'none';
+        }
+
+        function hideMessages() {
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+        }
+    });
+</script>
+
+
+
+</body>
+</html>

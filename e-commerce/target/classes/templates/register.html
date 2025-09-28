@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        /* Reset and base styles */
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ body {
+     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+     background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%); /* Matches login page gradient */
+     min-height: 100vh;
+     line-height: 1.6;
+     color: #2d3748; /* Neutral dark gray */
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ /* Register container: Consistent with login page */
+ .register-container {
+     background: rgba(255, 255, 255, 0.95); /* Slight transparency for depth */
+     padding: 2.5rem;
+     border-radius: 12px;
+     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Softer shadow */
+     width: 100%;
+     max-width: 400px;
+     backdrop-filter: blur(8px); /* Subtle blur for modern look */
+ }
+
+ /* Heading: Professional typography */
+ h2 {
+     text-align: center;
+     margin-bottom: 2rem;
+     color: #2d3748;
+     font-size: 1.75rem;
+     font-weight: 600;
+     line-height: 1.2;
+ }
+
+ /* Form group: Consistent spacing */
+ .form-group {
+     margin-bottom: 1.25rem;
+ }
+
+ /* Labels: Clear and professional */
+ .form-group label {
+     display: block;
+     margin-bottom: 0.5rem;
+     color: #4a5568; /* Softer gray */
+     font-size: 0.9rem;
+     font-weight: 500;
+     text-transform: capitalize;
+ }
+
+ /* Inputs: Modern and accessible */
+ input[type="email"],
+ input[type="password"] {
+     width: 100%;
+     padding: 0.875rem;
+     border: 1px solid #e2e8f0; /* Lighter border */
+     border-radius: 8px;
+     font-size: 1rem;
+     color: #2d3748;
+     background: #f7fafc; /* Light background */
+     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+ }
+
+ input[type="email"]:focus,
+ input[type="password"]:focus {
+     outline: none;
+     border-color: #5a67d8; /* Matches gradient */
+     box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.2); /* Subtle focus ring */
+ }
+
+ /* Register button: Consistent with login page */
+ #registerBtn {
+     width: 100%;
+     padding: 0.875rem;
+     background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+     color: #ffffff;
+     border: none;
+     border-radius: 8px;
+     font-size: 1rem;
+     font-weight: 500;
+     cursor: pointer;
+     transition: background 0.3s ease, transform 0.2s ease;
+     text-transform: uppercase;
+     letter-spacing: 0.05em;
+ }
+
+ #registerBtn:hover {
+     background: linear-gradient(135deg, #4c51bf 0%, #5a3f9b 100%); /* Darker gradient on hover */
+     transform: translateY(-1px); /* Subtle lift effect */
+ }
+
+ #registerBtn:active {
+     transform: translateY(0); /* Reset lift on click */
+ }
+
+ #registerBtn:disabled {
+     background: #a0aec0; /* Neutral gray for disabled state */
+     cursor: not-allowed;
+     transform: none;
+ }
+
+ /* Error and success messages */
+ #error {
+     color: #c53030; /* Vibrant red */
+     text-align: center;
+     margin-top: 1.25rem;
+     font-size: 0.875rem;
+     font-weight: 500;
+     display: none;
+ }
+
+ #success {
+     color: #2f855a; /* Professional green */
+     text-align: center;
+     margin-top: 1.25rem;
+     font-size: 0.875rem;
+     font-weight: 500;
+     display: none;
+ }
+
+ /* Loading state */
+ #loading {
+     text-align: center;
+     margin-top: 1.25rem;
+     font-size: 0.875rem;
+     color: #4a5568;
+     display: none;
+     animation: pulse 1.5s infinite ease-in-out;
+ }
+
+ /* Login link: Clean and subtle */
+ .login-link {
+     text-align: center;
+     margin-top: 1.5rem;
+     font-size: 0.9rem;
+     color: #4a5568;
+ }
+
+ .login-link a {
+     color: #5a67d8;
+     text-decoration: none;
+     font-weight: 500;
+     transition: color 0.3s ease;
+ }
+
+ .login-link a:hover {
+     color: #4c51bf;
+     text-decoration: underline;
+ }
+
+ /* Pulse animation for loading */
+ @keyframes pulse {
+     0% { opacity: 1; }
+     50% { opacity: 0.5; }
+     100% { opacity: 1; }
+ }
+
+ /* Responsive adjustments */
+ @media (max-width: 480px) {
+     .register-container {
+         padding: 1.5rem;
+         margin: 1rem;
+         max-width: 90%;
+     }
+
+     h2 {
+         font-size: 1.5rem;
+     }
+
+     #registerBtn {
+         padding: 0.75rem;
+         font-size: 0.9rem;
+     }
+ }
+    </style>
+</head>
+<body>
+
+<div class="register-container">
+    <h2>Register</h2>
+    <div id="error"></div>
+    <div id="success"></div>
+    <form id="registerForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required />
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" required />
+        </div>
+        <button type="submit" id="registerBtn">Register</button>
+        <div id="loading">Registering...</div>
+    </form>
+    <div class="login-link">
+        Already have an account? <a href="/login">Login here</a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const registerForm = document.getElementById('registerForm');
+        const registerBtn = document.getElementById('registerBtn');
+        const loading = document.getElementById('loading');
+        const errorDiv = document.getElementById('error');
+        const successDiv = document.getElementById('success');
+
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showError('Please fill in all fields');
+                return;
+            }
+
+            showLoading(true);
+            hideMessages();
+
+            try {
+                const response = await fetch('http://localhost:8080/api/auth/register', {   // ✅ full URL
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, password: password })
+                });
+
+                let data;
+                try {
+                    data = await response.json();
+                } catch {
+                    data = {};
+                }
+
+                if (response.ok) {
+                    showSuccess(data.message || 'Registration successful!');
+                    setTimeout(() => window.location.href = '/login', 1000);
+                } else {
+                    showError(data.message || 'Registration failed.');
+                }
+            } catch (error) {
+                console.error('Register error:', error);
+                showError('⚠️ Cannot reach server. Is backend running?');
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        function showLoading(show) {
+            loading.style.display = show ? 'block' : 'none';
+            registerBtn.disabled = show;
+            registerBtn.textContent = show ? 'Registering...' : 'Register';
+        }
+        function showError(msg) {
+            errorDiv.textContent = msg;
+            errorDiv.style.display = 'block';
+            successDiv.style.display = 'none';
+        }
+        function showSuccess(msg) {
+            successDiv.textContent = msg;
+            successDiv.style.display = 'block';
+            errorDiv.style.display = 'none';
+        }
+        function hideMessages() {
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>
