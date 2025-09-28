@@ -1,24 +1,26 @@
-// src/main/java/com/example/api_gateway/controller/FallbackController.java
-package com.example.api_gateway.controller;
+package com.example.api_gateway.fallback;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/fallback")
 public class FallbackController {
 
-    @GetMapping("/fallback/ecommerce")
+    @GetMapping("/ecommerce")
+    @PostMapping("/ecommerce")
+    @PutMapping("/ecommerce")
+    @DeleteMapping("/ecommerce")
     public ResponseEntity<Map<String, Object>> ecommerceFallback() {
         Map<String, Object> response = new HashMap<>();
         response.put("message", "E-commerce service is currently unavailable. Please try again later.");
-        response.put("fallback", true);
         response.put("status", "SERVICE_UNAVAILABLE");
         response.put("timestamp", System.currentTimeMillis());
+        response.put("fallback", true);
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(response);
     }
 }
