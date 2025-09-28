@@ -23,17 +23,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/login", "/api/auth/**", "/login.html", "/register", "/register.html", "/dashboard", "/dashboard.html", "/cart","/cart.html","/navbar.js","/inventory", "/inventory.html", "/products", "/products.html", "/static/**", "/templates/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        // Allow actuator endpoints (for health checks)
+                        .requestMatchers("/actuator/**").permitAll()
+                        // Your existing permitted paths
+                        .requestMatchers("/", "/login", "/api/auth/**", "/login.html", "/register", "/register.html", "/dashboard", "/dashboard.html", "/cart","/cart.html","/navbar.js","/inventory", "/inventory.html", "/products", "/products.html", "/static/**", "/templates/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
