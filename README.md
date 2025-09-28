@@ -8,7 +8,7 @@
 
 ## ✨ Overview
 
-E-Commerce Mini Store is a full-stack web application leveraging Spring Boot, Java, JWT, and MySQL, designed with a scalable microservices architecture. It provides a complete platform for product management, cart handling, order checkout, and user authentication with roles (CUSTOMER and MANAGER).
+E-Commerce Mini Store is a full-stack web application built with Spring Boot, Java, JWT, and MySQL. It provides a complete platform for product management, cart handling, order checkout, and user authentication with roles (CUSTOMER and MANAGER).
 
 ---
 
@@ -32,145 +32,36 @@ E-Commerce Mini Store is a full-stack web application leveraging Spring Boot, Ja
 
 ## 🛠️ Tech Stack
 
-| Category          | Technologies                                                                                                                                                                                                                                                                                                                                                      |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Backend**       | <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot" /> <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java" />                                                                                                                 |
-| **Database**      | <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />                                                                                                                                                                                                                                                |
-| **Security**      | <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jwt&logoColor=white" alt="JWT" /> <img src="https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Security" />                                                                                                            |
-| **Frontend**      | <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white" alt="Thymeleaf" /> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" /> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" /> |
-| **Microservices** | <img src="https://img.shields.io/badge/Spring%20Cloud%20Gateway-00BCD4?style=for-the-badge&logo=spring&logoColor=white" alt="Gateway" /> <img src="https://img.shields.io/badge/Resilience4j-F57C00?style=for-the-badge&logo=java&logoColor=white" alt="Circuit Breaker" />                                                                                       |
-
+| Category         | Technologies                                                                                                           |
+|------------------|-----------------------------------------------------------------------------------------------------------------------|
+| **Backend**      | <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot" /> <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java" />
+| **Database**     | <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
+| **Security**   | <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jwt&logoColor=white" alt="JWT" /> <img src="https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Security" />|
+| **Frontend**     | <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white" alt="Thymeleaf" /> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" /> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
 ---
 
 ## 📁 Directory Structure
 
 ```
-.idea/
-    ├── .gitignore
-    ├── compiler.xml
-    ├── encodings.xml
-    ├── jarRepositories.xml
-    ├── misc.xml
-    └── vcs.xml
-api-gateway/
-    ├── .mvn/
-        └── wrapper/
-            └── maven-wrapper.properties
-    ├── src/
-        ├── main/
-            ├── java/
-                └── com/
-                    └── example/
-                        └── api_gateway/
-                            ├── config/
-                                ├── CircuitBreakerConfig.java
-                                └── GatewayConfig.java
-                            ├── fallback/
-                                └── FallbackController.java
-                            └── ApiGatewayApplication.java
-            └── resources/
-                └── application.properties
-        └── test/
-            └── java/
-                └── com/
-                    └── example/
-                        └── api_gateway/
-                            └── ApiGatewayApplicationTests.java
-    ├── .gitattributes
-    ├── .gitignore
-    ├── mvnw
-    ├── mvnw.cmd
-    └── pom.xml
-E-commerceMiniStore/
-    ├── .mvn/
-        └── wrapper/
-            └── maven-wrapper.properties
-    ├── src/
-        ├── main/
-            ├── java/
-                └── com/
-                    └── example/
-                        └── E_commerceMiniStore/
-                            ├── config/
-                                └── PasswordConfig.java
-                            ├── controller/
-                                ├── AuthController.java
-                                ├── CartItemController.java
-                                ├── OrderController.java
-                                ├── ProductController.java
-                                └── ViewController.java
-                            ├── entity/
-                                ├── CartItem.java
-                                ├── Order.java
-                                ├── Product.java
-                                ├── Role.java
-                                └── User.java
-                            ├── repository/
-                                ├── CartItemRepository.java
-                                ├── OrderRepository.java
-                                ├── ProductRepository.java
-                                └── UserRepository.java
-                            ├── security/
-                                ├── JwtAuthenticationFilter.java
-                                ├── JwtService.java
-                                └── SecurityConfig.java
-                            ├── service/
-                                ├── CartItemService.java
-                                ├── OrderService.java
-                                ├── ProductService.java
-                                └── UserService.java
-                            └── ECommerceMiniStoreApplication.java
-            └── resources/
-                ├── META-INF/
-                    └── additional-spring-configuration-metadata.json
-                ├── static/
-                    ├── Login.html
-                    ├── navbar.js
-                    ├── QR.jpeg
-                    └── Register.html
-                ├── templates/
-                    ├── cart.html
-                    ├── dashboard.html
-                    ├── inventory.html
-                    ├── login.html
-                    ├── payment.html
-                    ├── products.html
-                    └── register.html
-                └── application.properties
-        └── test/
-            └── java/
-                └── com/
-                    └── example/
-                        └── E_commerceMiniStore/
-                            └── ECommerceMiniStoreApplicationTests.java
-    ├── .gitattributes
-    ├── .gitignore
-    ├── mvnw
-    ├── mvnw.cmd
-    └── pom.xml
-service-discovery/
-    ├── .mvn/
-        └── wrapper/
-            └── maven-wrapper.properties
-    ├── src/
-        ├── main/
-            ├── java/
-                └── ServiceDiscoveryApplication.java
-            └── resources/
-                └── application.properties
-        └── test/
-            └── java/
-                └── com/
-                    └── example/
-                        └── service_discovery/
-                            └── ServiceDiscoveryApplicationTests.java
-    ├── .gitattributes
-    ├── .gitignore
-    ├── mvnw
-    ├── mvnw.cmd
-    └── pom.xml
-LICENSE
-README.md
+E-Commerce-MiniStore/
+├── 📂 src/
+│   ├── 📂 main/
+│   │   ├── 📂 java/com/example/E_commerceMiniStore/
+│   │   │   ├── controller/          # REST Controllers for Products, Cart, Orders, Auth
+│   │   │   ├── entity/              # JPA Entities (User, Product, CartItem, Order)
+│   │   │   ├── repository/          # Spring Data JPA Repositories
+│   │   │   ├── security/            # JWT Service, Filters, Security Config
+│   │   │   ├── service/             # Service classes for business logic
+│   │   │   └── ECommerceMiniStoreApplication.java  # Main Spring Boot application
+│   │   └── 📂 resources/
+│   │       ├── application.properties   # Application configuration
+│   │       ├── static/                 # CSS, JS, images
+│   │       └── templates/              # Thymeleaf templates (optional)
+├── 📂 target/                        # Compiled files
+├── 📄 pom.xml                        # Maven dependencies
+├── 📄 README.md                       # Project documentation
+└── 📄 .gitignore                      # Git ignore file
+
 ```
 ---
 ## 🚀 Getting Started
@@ -238,23 +129,6 @@ README.md
 - Protected API routes using Spring Security
 
 ---
-
-## 🌐 API Gateway
-
-- **Routing:** All requests go through the API Gateway before reaching microservices
-- **Load Balancing:** Can distribute traffic between service instances
-- **Fallbacks:** Resilience4j circuit breakers ensure safe fallback responses if a service is down
-  
----
-
-## ⚡ Resilience & Fault Tolerance
-
-- **Resilience4j Circuit Breaker:** Protects services from cascading failures
-- **Fallback Mechanisms:** If a microservice fails, the gateway provides default/fallback responses
-- **Timeouts & Retry Policies:** Ensures API responsiveness even during service downtime
-
----
-
 ## 🤝 Contributing
 
 1. Fork the repository
