@@ -31,6 +31,7 @@ E-Commerce Mini Store is a full-stack web application leveraging Spring Boot, Ja
 ---
 
 ## 🛠️ Tech Stack
+
 | Category          | Technologies                                                                                                                                                                                                                                                                                                                                                      |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Backend**       | <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot" /> <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java" />                                                                                                                 |
@@ -38,6 +39,7 @@ E-Commerce Mini Store is a full-stack web application leveraging Spring Boot, Ja
 | **Security**      | <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jwt&logoColor=white" alt="JWT" /> <img src="https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Security" />                                                                                                            |
 | **Frontend**      | <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white" alt="Thymeleaf" /> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" /> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" /> |
 | **Microservices** | <img src="https://img.shields.io/badge/Spring%20Cloud%20Gateway-00BCD4?style=for-the-badge&logo=spring&logoColor=white" alt="Gateway" /> <img src="https://img.shields.io/badge/Resilience4j-F57C00?style=for-the-badge&logo=java&logoColor=white" alt="Circuit Breaker" />                                                                                       |
+
 ---
 
 ## 📁 Directory Structure
@@ -236,6 +238,7 @@ README.md
 - Protected API routes using Spring Security
 
 ---
+
 ## 🌐 API Gateway
 
 - **Routing:** All requests go through the API Gateway before reaching microservices
@@ -251,6 +254,7 @@ README.md
 - **Timeouts & Retry Policies:** Ensures API responsiveness even during service downtime
 
 ---
+
 ## 🤝 Contributing
 
 1. Fork the repository
